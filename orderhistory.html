@@ -1,0 +1,163 @@
+{% extends 'layout.html' %}
+
+<!-- ORDER HISTORY PAGE -->
+
+{% block head %}
+
+	<style>
+	#sortbtn {
+		position: absolute;
+		right :35px;
+		top : 90px;
+	}
+	#showorders {
+		position: absolute;
+		width: auto;
+		left: 32px;
+		right: 32px;
+		height: 400px; 
+	}
+	#head-background {
+		color: white;
+		background-color: grey; 
+		width: 100%;
+	}
+	#scroll-table {
+		 height: 300px;
+		 overflow: auto;
+	}
+	</style>
+
+{% endblock %}
+
+{% block body %}
+
+	<h1>Order History</h1>
+
+	{% if session['username']== 'admin' %}
+		<button id ="sortbtn" class="btn btn-light" onclick="sortTable()">Sort by <i>PickUpDate</i></button>
+	{% endif %}
+
+	<br>
+	<section class="container" style="height: 381px; background-color:#F8F9F9">
+		<div id="showorders">
+
+			{% if session['username']== 'admin' %}
+				<table class="table table-striped table-sm" style="width: 925px">
+					<tr> 
+    					<td>
+	     					<table style="width: 900px">
+		         				<tr id="head-background">
+									<th style="width: 8%">Order ID</th>
+									<th style="width: 16%">Product</th>
+									<th style="width: 11%">Unit</th>
+									<th style="width: 6%">Price</th>
+									<th style="width: 11%">Pick Up Date</th>	
+									<th style="width: 6%">Username</th>
+									<th style="width: 16%">Order Date</th>
+									<th style="width: 7%"></th>
+									<th style="width: 8%"></th>
+								</tr>
+	       					</table>
+					    </td>
+					</tr>
+						
+					<tr>
+					    <td>
+					       <div id="scroll-table">
+						       <center><table id="showall" style="width: 900px">
+								{% for no in range(0, orders|length) %}
+									<tr>
+										<td style="width: 8%">{{ orders[no].order_id }}</td>
+										<td style="width: 18%">{{ orders[no].product }}</td>
+										{% if orders[no].type == "cake" %}
+											<td style="width: 12%">{{ orders[no].quantity }} lb(s)</td>
+										{% elif orders[no].type == "chocolate" %}	
+											<td style="width: 12%">{{ orders[no].quantity }} box(es)</td>
+										{% elif orders[no].type == "cookie" %}	
+											<td style="width: 12%">{{ orders[no].quantity }} package(s)</td>
+										{% endif %}
+										<td style="width: 6%">{{ orders[no].price }}</td>
+										<td style="width: 12%">{{ orders[no].pickupdate }}</td>
+										<td style="width: 10%">{{ orders[no].username }}</td>
+										<td style="width: 18%">{{ orders[no].order_time }}</td>
+										<td style="width: 5%"><a href="edit_order/{{orders[no].order_id}}" class ="btn btn-default pullright">Edit</a></td>
+										<td  style="width: 8%">
+											<form action="{{url_for('delete_order', id=orders[no].order_id)}}" method="POST">
+												<input type="hidden" name="_method" value="DELETE">
+												<input type="submit" value="Delete" class="btn btn-danger" >
+											</form>
+										</td>
+									</tr>
+								{% endfor %}
+								</table></center>
+							</div>
+						</td>
+					</tr>
+				</table>
+			{% else %}
+				<table class="table table-striped">
+					<tr>
+						<th>Order ID</th>
+						<th>Product</th>
+						<th>Unit</th>
+						<th>Price</th>
+						<th>Pick Up Date</th>	
+						<th></th>
+					</tr>
+
+					{% for no in range(0, orders|length) %}
+						<tr>
+							<td>{{ orders[no].order_id }}</td>
+							<td>{{ orders[no].product }}</td>
+							{% if orders[no].type == "cake" %}
+								<td>{{ orders[no].quantity }} lb</td>
+							{% elif orders[no].type == "chocolate" %}	
+								<td>{{ orders[no].quantity }} box(es)</td>
+							{% elif orders[no].type == "cookie" %}	
+								<td>{{ orders[no].quantity }} package(s)</td>
+							{% endif %}
+							<td>{{ orders[no].price }}</td>
+							<td>{{ orders[no].pickupdate }}</td>
+							<td><a href="edit_order/{{orders[no].order_id}}" class ="btn btn-default pullright">Edit</a></td>
+						</tr>
+					{% endfor %}
+
+				</table>
+				<br>
+				<p style="color: grey">&nbsp;&nbsp;<b>Should you want to delete your order, please <a href="about">contact us</a>.</b> (Please provide us with the order ID for cancellation. Thank you.)</p>
+
+			{% endif %}
+		</div>
+	</section>
+
+	<script type="text/javascript">
+		function sortTable() {
+ 		  	var table, rows, switching, i, x, y, shouldSwitch;
+		  	table = document.getElementById("showall");
+		  	switching = true; 
+		 	while (switching) {
+		    	switching = false; 
+		    	rows = table.rows;
+		    	/* loop through all table rows */
+		    	for (i = 0; i < (rows.length - 1); i++) {
+		      		shouldSwitch = false;
+		     		x = rows[i].getElementsByTagName("TD")[4];
+		      		y = rows[i + 1].getElementsByTagName("TD")[4];
+		      		/* switch if the latter has an earlier date */
+		      		if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+		        	shouldSwitch = true;
+		        	break;
+		     	 	}
+		   		}
+			    if (shouldSwitch) {
+			    	/*If a switch has been marked, make the switch
+      and mark that it has been done:*/
+			      	rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+			      	switching = true;
+			    }
+	 	 	}
+		}
+	</script>
+	
+{% endblock %}

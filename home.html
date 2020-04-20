@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+<!-- HOME PAGE -->
+
+{% block head %}
+
+  <style>
+  * {
+    box-sizing: border-box;
+  }
+
+  .column {
+    float: left;
+    width: 33.33%;
+    padding: 5px;
+  }
+
+  /* Clearfix (clear floats) */
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  </style>
+  
+{% endblock %}
+
+
+{% block body %}
+
+  <div class='jumbotron text-center' style="background-color: #F2D7D5">
+  	<h1>Welcome to <i>The Sweetest App!</i></h1>
+  	<p class='lead'>Here you can find any kind of desserts! Find your favourite dessert here!</p>
+  	
+    <!-- display button if not logged in, otherwise display msg -->
+
+    {% if session.logged_in == NULL %}
+
+  		<br>
+  		<a href="/register" class='btn btn-primary btn=lg' style="background-color: #E69977 ">Register</a>
+  		<a href="/login" class='btn btn-success btn=lg'style="background-color: #A2410E  ">Login</a>
+
+    {% else %}
+
+        <br>
+        <h2 style="border-style: dotted solid dashed; padding: 20px;color: brown;">Welcome {{ session.username }}!</h2>
+
+  	{% endif %}
+    
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <img src="static/hm_choco.jpg" alt="chocolate" style="width:100%">
+    </div>
+    <div class="column">
+      <img src="static/berriescake.jpg" alt="cake" style="width:100%">
+    </div>
+    <div class="column">
+      <img src="static/hm_cookies.jpg" alt="cookie" style="width:100%">
+    </div>
+  </div>
+
+{% endblock %}

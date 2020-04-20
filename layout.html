@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<!-- the whole layout of the APP -->
+
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+
+	<title>The Sweetest App</title>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/style.css">
+
+	<style>
+	.wrapper {
+		background-color: #EAEDED;
+		min-height: 100%;
+		margin-bottom: -50px
+	}
+	.footer {
+		position: auto;
+		background-color: #1D4761;
+		color:#FEF9E7;
+		width:100%;
+		bottom:0; 
+		height: 30px
+	}
+	</style>
+
+	{% block head %} {% endblock %}
+
+</head>
+
+<body class="wrapper">
+	{% include 'includes/_navbar.html' %}
+	<div class='container' style="margin-top: 55px;">
+		{% include 'includes/_messages.html' %}
+		{% block body %} {% endblock %}
+		
+	</div>
+	<div class="push" style="height: 50px"></div>
+</body>
+
+<section>
+ 	<center><footer class="footer">&copy; 2020 TheSweestestApp.</footer></center> 
+</section> 
+
+</html>

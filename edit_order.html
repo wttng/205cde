@@ -1,0 +1,140 @@
+{% extends 'layout.html' %}
+
+<!-- EDIT ORDER PAGE -->
+
+{% block head %}
+
+	<style>
+	.showproduct{
+		position: absolute;
+		width: 45%; 
+		left: 32px; 
+		padding: 10px	
+	}
+	.photo{
+		width: 300px;
+		height: 300px;
+		padding: 20px
+	}
+	.orderinput{
+		background-color: #F7F9F9;
+		position: absolute;
+		width: 45%;
+		right:32px; 
+		padding: 10px
+	}	
+	</style>
+
+{% endblock %}
+
+
+{% block body %}
+
+	{% from 'includes/_formhelpers.html' import render_field %}
+
+	<section class="container" style="padding:10px;height:500px">
+	<div class="showproduct">
+		<img class="photo" src="{{ product.image }}">
+		<h4>{{ product.name }}</h4>
+
+		{% if product.type== "cake" %}
+			<p class="price">HKD <b>${{ product.price }}</b> per lb</p>
+		{% elif product.type== "chocolate" %}
+			<p class="price">HKD <b>${{ product.price }}</b> per box</p>
+		{% elif product.type== "cookie" %}
+			<p class="price">HKD <b>${{ product.price }}</b> per package</p>
+	    {% endif %}
+
+		<p>{{ product.description }}</p>
+	</div>
+	<div class="orderinput">
+
+		<form method="POST" action=" ">
+
+			<h4>Order Details</h4>
+			<div class="form-group" >
+				{{ render_field(form.name, class="form-control", id="editor") }}
+			</div>
+			<div class="form-group" >
+				{{ render_field(form.email, class="form-control", id="editor") }}
+			</div>
+			<b><label for="pickupdate">Pick Up Date</label></b><br>
+			<input type="date" name="pickupdate" required><br><br>
+
+		{% if product.type== "cake" %}
+	
+			<b><label for="quan">Size</label></b><br>
+			<select id = "quantity" name="choice" onchange="calculate()">
+				<option value="1">1 pound</option>
+				<option value="1.5">1.5 pounds</option>
+				<option value="2">2 pounds</option>
+				<option value="2.5">2.5 pounds</option>
+				<option value="3">3 pounds</option>
+				<option value="3.5">3.5 pounds</option>
+				<option value="4">4 pounds</option>
+			</select><br><br>
+
+		{% elif product.type== "chocolate" %}
+
+			<b><label for="quan">Quantity</label></b><br>
+			<select id = "quantity" name="choice" onchange="calculate()">
+				<option value="1">1 box</option>
+				<option value="2">2 boxes</option>
+				<option value="3">3 boxes</option>
+				<option value="4">4 boxes</option>
+				<option value="5">5 boxes</option>
+				<option value="6">6 boxes</option>
+				<option value="7">7 boxes</option>
+				<option value="8">8 boxes</option>
+				<option value="9">9 boxes</option>
+				<option value="10">10 boxes</option>
+			</select><br><br>
+
+		{% elif product.type== "cookie" %}
+
+			<b><label for="quan">Quantity</label></b><br>
+			<select id = "quantity" name="choice" onchange="calculate()">
+				<option value="1">1 package</option>
+				<option value="2">2 packages</option>
+				<option value="3">3 package</option>
+				<option value="4">4 package</option>
+				<option value="5">5 package</option>
+				<option value="6">6 package</option>
+				<option value="7">7 package</option>
+				<option value="8">8 package</option>
+				<option value="9">9 package</option>
+				<option value="10">10 package</option>
+			</select><br><br>
+
+		{% endif %}
+
+			<p id="output" style="color: red;">Total price: {{product.price}}</p>
+			<p><input type="submit" class="btn btn-primary" value="Submit"></p>			
+
+		</form>		
+	</div>
+	</section>
+
+	<script>
+
+		var total; // store total price
+
+		//calculate total price
+		function calculate() {
+			var quan = document.getElementById("quantity").value;
+			total = "{{ product.price }}"* quan;
+			document.getElementById("output").innerHTML = "Total price: "+ total;
+		}
+
+		const today =  new Date(); // get today's date
+		const tomorrow = new Date(today); 
+
+		tomorrow.setDate(tomorrow.getDate() + 1); // add one day to date of today
+
+		var tmr = tomorrow.toISOString().split('T')[0]; //split dates
+
+		document.getElementsByName("pickupdate")[0].setAttribute('min', tmr); //set pickup date the earliest tomorrow
+
+	</script>
+	
+{% endblock %}

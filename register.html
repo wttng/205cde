@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+<!-- USER REGISTER PAGE -->
+
+{% block head %}
+	<style>
+	#register {
+		background-color: #F6DDCC ; 
+		position: absolute; 
+		width: 95%; 
+		left: 32px; 
+		right: 32px; 
+		padding: 20px
+	}
+	</style>
+{% endblock %}
+
+
+{% block body %}
+
+	<h1>Register</h1>
+
+	{% from 'includes/_formhelpers.html' import render_field %}
+
+	<section class="container" style="height: 600px">
+		<div id="register">
+
+			<form method="POST" action=" ">
+				<div class="form-group">
+					{{ render_field(form.name, class="form-control") }}
+				</div>
+				<div class="form-group">
+					{{ render_field(form.email, class="form-control") }}
+				</div>
+				<div class="form-group">
+					{{ render_field(form.username, class="form-control") }}
+				</div>
+				<div class="form-group">
+					{{ render_field(form.password, class="form-control") }}
+				</div>
+				<div class="form-group">
+					{{ render_field(form.confirm, class="form-control") }}
+				</div>
+				<p><input type="submit" class="btn btn-primary" value="Submit"></p>
+			</form>
+			
+		</div>
+	</section>
+
+{% endblock %}

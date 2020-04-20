@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+<!-- MESSAGE BOARD PAGE for admin -->
+
+{% block head %}
+
+	<style>
+
+	#msgtable {
+		position:absolute;
+		width: auto;
+		left:32px;
+		right:32px;
+		height: 400px;
+	}
+
+	</style>
+
+{% endblock %}
+
+{% block body %}
+
+	<h1>Message Board</h1>
+	<section class="container" style="height: 381px; background-color: #F8F9F9">
+		<div id="msgtable">
+
+			<table class="table table-striped table-sm">
+				<tr>
+					<th>Message ID</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Comment</th>
+					<th>Time Sent</th>	
+				</tr>
+
+				{% for no in range(0, messages|length) %}
+					<tr>
+						<td>{{ messages[no].id }}</td>
+						<td>{{ messages[no].name }}</td>
+						<td>{{ messages[no].email }}</td>	
+						<td>{{ messages[no].comment }}</td>
+						<td>{{ messages[no].time }}</td>
+					</tr>
+				{% endfor %}
+
+			</table>
+			<br>
+		</div>
+	</section>
+	
+{% endblock %}

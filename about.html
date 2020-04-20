@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+<!-- ABOUT PAGE for users -->
+
+{% block head %}
+
+	<style>
+	.info {
+		background-color: #EBDEF0;
+		position: absolute; 
+		width: 45%; 
+		padding: 10px;
+	}
+	</style>
+	
+{% endblock %}
+
+
+{% block body %}
+
+	<h1><b>About Us</b></h1>	
+
+	{% from 'includes/_formhelpers.html' import render_field %}
+
+	<!-- show company details -->
+	<section style="background-color: #D4E6F1; padding:20px">
+
+		<p><b>The Sweetest App</b> is the app for <b>The Sweetest Store</b> providing various types of dessert like cakes, cookies and chocolates. Everyone can purchase our products online and with a large quantity! Don't hesitate to join us now!</p>
+
+	</section>
+	<br><br>
+	<section class="container" style="height:450px">
+		<div class="info" style = "left:32px">
+
+			<h4>Store Address:</h4>
+			<p>Shop 103, Dessert Centre, Sweets Avenue, Kowloon, HK</p>
+			<h4>Customer Service Office Hours:</h4>
+			<p>Monday to Friday: 9:00~18:00</p>
+			<p>Saturday to Sunday: 9:00~13:00</p>
+			<h4>Customer Service Hotline: </h4>
+			<p>23455555</p>
+			<h4>Email:</h4>
+			<a href = "mailto:cs@SweetestDessert.com">cs@SweetestDessert.com</a><br>
+		</div>
+
+		<!-- message input form -->
+		<div class="info" style = "right:32px">
+			<h4>Feel Free to Contact Us </h4>
+
+			<form method="POST" action=" ">
+
+				<div class="form-group">
+					{{ render_field(form.name, class="form-control") }}
+				</div>
+				<div class="form-group">
+					{{ render_field(form.email, class="form-control") }}
+				</div>
+				<div class="form-group">
+					{{ render_field(form.comment, class="form-control") }}
+				</div>
+				<input type="submit" value="Send">
+				<input type="reset" value="Reset">
+
+			</form>
+		</div>
+	</section>
+	
+{% endblock %}
